@@ -40,7 +40,7 @@ public class CardSort {
     // so fun writing this!
     // allows the list of cards viewed to be smaller!
     public static <T> void selectRank(ArrayList<Card> cards) {
-        ArrayList<Card> selectedCards = new ArrayList<>();;
+        ArrayList<Card> selectedCards = new ArrayList<>();
         for (Card card : cards) {
             String rank = card.getRank();
             if (rank.equals("UNIQUE") || rank.equals("RARE")) 

@@ -2,7 +2,7 @@ import java.util.Scanner;
 import java.util.ArrayList;
 
 public class Action {
-    private Scanner scanner = new Scanner(System.in);
+    private final Scanner scanner = new Scanner(System.in);
 
     public Action() {}
 
@@ -23,16 +23,16 @@ public class Action {
 
     // will run methods for each maybe?
     public String select(int choice) {
-        switch (choice) {
-            case 1: return "CARDS";
-            case 2: return "CREDITS";
-            case 3: return OFFERS(cards);
-            case 4: return BUY();
-            case 5: return SELL();
-            default: return "";
-        }
+        return switch (choice) {
+            case 1 -> "CARDS";
+            case 2 -> "CREDITS";
+            case 3 -> "OFFERS";
+            case 4 -> BUY();
+            case 5 -> SELL();
+            default ->  "";
+        };
     }
-    public void OFFERS(ArrayList<Card> cards) {
+    public void filterOffers(ArrayList<Card> cards) {
         System.out.println(" 1. Show all cards");
         System.out.println(" 2. Show cards rare and up");
         String choice = scanner.next();

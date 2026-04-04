@@ -8,15 +8,15 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 
 class Connect {
-    private String username;
-    private String password;
-    private Scanner scanner = new Scanner(System.in);
-    private Action action = new Action();
+    private final String username;
+    private final String password;
+    private final Scanner scanner = new Scanner(System.in);
+    private final Action action = new Action();
     private ArrayList<Card> myCards = new ArrayList<>();
 
     public Connect() {
         System.out.print("Username: ");
-        this.username = scanner.nextLine();
+      		this.username = scanner.nextLine();
         System.out.print("Password: ");
         this.password = scanner.nextLine();
     }
@@ -29,7 +29,7 @@ class Connect {
 
     public void run() {
         // will check your choice each time
-        int choice = 0;
+        int choice;
         while ((choice = action.menu()) != 6) {
             String task = action.select(choice);
             // try with resources
@@ -59,21 +59,24 @@ class Connect {
     }
 
     public void taskResponse(BufferedReader reader, String task) throws IOException {
-        if (task.equals("CARDS")) {
-            myCards.forEach(card -> System.out.println(card.toString()));
-            while (reader.readLine() != null) { /* dump the new outputs */}
-        }
-
-        else if (task.equals("OFFERS")) {
-            ArrayList<Card> cardSales = readCards(reader);
-            cardSales.forEach(card -> System.out.println(card.toString()));
-        }
-        
-        else {
-            String line = reader.readLine();
-            while (line != null) {
-                System.out.println(line);
-                line = reader.readLine();
+        switch (task) {
+            case "CARDS" -> {
+                myCards.forEach(card -> System.out.println(card.toString()));
+                while (reader.readLine() != null) { /* dump the new outputs */}
+            }
+            
+            case "OFFERS" -> {
+                ArrayList<Card> cardSales = readCards(reader);
+                action.filterOffers(cardSales);
+                cardSales.forEach(card -> System.out.println(card.toString()));
+            }
+            
+            default -> {
+                String line = reader.readLine();
+                while (line != null) {
+                    System.out.println(line);
+                    line = reader.readLine();
+                }
             }
         }
     }
@@ -102,10 +105,8 @@ class Connect {
         while (true)
             try (
                 Socket sock = new Socket ("netsrv.cim.rhul.ac.uk", 1812);
-                BufferedReader reader = new BufferedReader(new InputStreamReader(sock.getInputStream()));
                 BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(sock.getOutputStream()));
             ) {
-                
                 // actions of the try block
                 // puts the text in the buffer -> not directly to the server
                 System.out.println("HAMMER TIME");
@@ -117,14 +118,21 @@ class Connect {
                 System.out.println("HAMMER SUCCESSFUL");
 
                 loops ++;
-                try {
-                    System.out.println("schlepen");
-                    System.out.println("loop no: "+ loops);
-                    System.out.println("");
-                    Thread.sleep(3000);
-                } catch (InterruptedException e) {  }
+                System.out.println("schlepen");
+                System.out.println("loop no: "+ loops);
+                System.out.println("");
+                Thread.sleep(3000);
+
+            } catch (IOException e) { 
+                System.err.println("Connection failed: "+ e.getMessage());
+                loops++; 
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                break;
+            }
+                    
                 
-            } catch (IOException e) { } 
+                
     }
 
     public static void main(String[] args) {

@@ -1,10 +1,10 @@
 import java.util.Objects;
 
 public class Card implements Comparable<Card>{
-    private String id;
-    private String name;
-    private String rank;
-    private String lastSale;
+    private final String id;
+    private final String name;
+    private final String rank;
+    private final String lastSale;
     
     public Card (String id, String name, String rank, String lastSale) {
         this.id = id;
@@ -14,6 +14,7 @@ public class Card implements Comparable<Card>{
     }
 
     public String getRank() { return rank; }
+    @Override
     public String toString() { return id + " | " + name + " | " + rank + " | " + lastSale; }
 
     @Override
