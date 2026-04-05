@@ -1,4 +1,3 @@
-import java.io.BufferedWriter;
 import java.util.Scanner;
 import java.util.ArrayList;
 
@@ -31,7 +30,6 @@ public class Action {
             case 3 -> "OFFERS";
             case 4 -> BUY();
             case 5 -> SELL();
-            case 6 -> SELL();
             default ->  "";
         };
     }
@@ -56,11 +54,7 @@ public class Action {
         return "SELL "+ cardID + " "+ price;
     }   
 
-    public void autoSell(BufferedWriter write, int price, ArrayList<Card> cards) {
-        for (Card card : cards) {
-            if(card.getRank().equals("COMMON"))
-                
-        }
-
+    public String autoSellTask(Card card, String cost) {
+        return "SELL "+ card.getId() +" "+ cost;
     }
 }

@@ -30,26 +30,14 @@ class Connect {
     public void run() {
         // will check your choice each time
         int choice;
-        while ((choice = action.menu()) != 6) {
-            String task = action.select(choice);
-            // try with resources
-            try (
-                Socket sock = new Socket ("netsrv.cim.rhul.ac.uk", 1812);
-                BufferedReader reader = new BufferedReader(new InputStreamReader(sock.getInputStream()));
-                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(sock.getOutputStream()));
-            ) {
-                // actions of the try block
-                // puts the text in the buffer -> not directly to the server
-                writer.write(username); writer.newLine();
-                writer.write(password); writer.newLine();
-                writer.write(task); writer.newLine();
-                writer.newLine();
-                writer.flush();
+        while ((choice = action.menu()) != 7) {
+            if (choice == 6) { autoSell(); continue; }
 
+            String task = action.select(choice);
+            sendRequest(task, reader -> {
                 loginResponse(reader);
                 taskResponse(reader, task);
-
-            } catch (IOException e) { }
+            }); 
         }
     }
 
@@ -78,6 +66,60 @@ class Connect {
                     line = reader.readLine();
                 }
             }
+        }
+    }
+
+    public void sendRequest(String task, ReaderTask readerTask) {
+        try (
+                Socket sock = new Socket ("netsrv.cim.rhul.ac.uk", 1812);
+                BufferedReader reader = new BufferedReader(new InputStreamReader(sock.getInputStream()));
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(sock.getOutputStream()));
+            ) {
+                // actions of the try block
+                // puts the text in the buffer -> not directly to the server
+                writer.write(username); writer.newLine();
+                writer.write(password); writer.newLine();
+                writer.write(task); writer.newLine();
+                writer.newLine();
+                writer.flush();
+
+                readerTask.execute(reader);
+
+            } catch (IOException e) {
+                System.err.println("Connection failed: " + e.getMessage());
+            }
+    }
+
+    public void autoSell() {
+        // calls the login response so myCards is defined!
+        sendRequest("CARDS", reader -> loginResponse(reader));
+
+        ArrayList<Card> toSell = new ArrayList<>();
+        for (Card card : myCards) {
+            String rank = card.getRank();
+            if (rank.equals("COMMON") || rank.equals("UNCOMMON"))
+                toSell.add(card);
+        }
+
+        System.out.print("How much would you like to sell all the cards for: ");
+        String price = scanner.nextLine();
+
+        if (toSell.isEmpty()) {
+            System.out.println("No common or uncommon cards to sell.");
+            return;
+        }
+
+        System.out.println("Auto-selling " +toSell.size()+ " cards...");
+
+        for (Card card : toSell) {
+            // sets task as SELL cardId cost
+            String task = action.autoSellTask(card, price);
+            // sends the request to run login and executes login + task response
+            // helper method 
+            sendRequest(task, reader -> {
+                loginResponse(reader);
+                taskResponse(reader, task);
+            });
         }
     }
 
@@ -135,6 +177,7 @@ class Connect {
                 
     }
 
+    // this is terrible login details management, however, its a fun project and doesn't count towards anything
     public static void main(String[] args) {
         Connect connection = new Connect("class", "anyoneindicatelocal");
         
