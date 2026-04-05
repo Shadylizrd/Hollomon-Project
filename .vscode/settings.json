@@ -1,7 +1,0 @@
-{
-    "js/ts.preferences.jsxAttributeCompletionStyle": "none",
-    "js/ts.suggest.enabled": false,
-    "js/ts.suggest.jsdoc.enabled": true,
-    "js/ts.suggest.jsdoc.generateReturns": true,
-    "java.inlayHints.parameterNames.enabled": "none"
-}
