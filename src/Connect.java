@@ -28,17 +28,18 @@ class Connect {
     }
 
     public void run() {
-        // will check your choice each time
         int choice;
-        while ((choice = action.menu()) != 7) {
-            if (choice == 6) { autoSell(); continue; }
+        if (checkLogin())
+        // will check your choice each time
+            while ((choice = action.menu()) != 7) {
+                if (choice == 6) { autoSell(); continue; }
 
-            String task = action.select(choice);
-            sendRequest(task, reader -> {
-                loginResponse(reader);
-                taskResponse(reader, task);
-            }); 
-        }
+                String task = action.select(choice);
+                sendRequest(task, reader -> {
+                    loginResponse(reader);
+                    taskResponse(reader, task);
+                }); 
+            }
     }
 
     // read this and display info?
@@ -67,6 +68,29 @@ class Connect {
                 }
             }
         }
+    }
+
+    public boolean checkLogin() {
+        try (
+                Socket sock = new Socket ("netsrv.cim.rhul.ac.uk", 1812);
+                BufferedReader reader = new BufferedReader(new InputStreamReader(sock.getInputStream()));
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(sock.getOutputStream()));
+            ) {
+                // actions of the try block
+                // puts the text in the buffer -> not directly to the server
+                writer.write(username); writer.newLine();
+                writer.write(password); writer.newLine();
+                writer.newLine();
+                writer.flush();
+
+                String line = reader.readLine();
+                System.out.println(line);
+                if (line.equals("User " +username+ " logged in successfully."))
+                    return true;
+
+                
+            } catch (IOException e) { System.err.println("Connection failed: " + e.getMessage());}
+            return false;
     }
 
     public void sendRequest(String task, ReaderTask readerTask) {
@@ -179,7 +203,7 @@ class Connect {
 
     // this is terrible login details management, however, its a fun project and doesn't count towards anything
     public static void main(String[] args) {
-        Connect connection = new Connect("class", "anyoneindicatelocal");
+        Connect connection = new Connect();
         
         connection.run();
     }
