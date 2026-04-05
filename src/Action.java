@@ -1,3 +1,4 @@
+import java.io.BufferedWriter;
 import java.util.Scanner;
 import java.util.ArrayList;
 
@@ -14,7 +15,8 @@ public class Action {
         System.out.println(" 3. list available cards");
         System.out.println(" 4. buy card");
         System.out.println(" 5. sell card");
-        System.out.println(" 6. terminate");
+        System.out.println(" 6. auto-sell");
+        System.out.println(" 7. terminate");
 
         System.out.println("");
         System.out.print("> enter choice: ");
@@ -29,6 +31,7 @@ public class Action {
             case 3 -> "OFFERS";
             case 4 -> BUY();
             case 5 -> SELL();
+            case 6 -> SELL();
             default ->  "";
         };
     }
@@ -52,4 +55,12 @@ public class Action {
         String price = scanner.next();
         return "SELL "+ cardID + " "+ price;
     }   
+
+    public void autoSell(BufferedWriter write, int price, ArrayList<Card> cards) {
+        for (Card card : cards) {
+            if(card.getRank().equals("COMMON"))
+                
+        }
+
+    }
 }
