@@ -14,6 +14,7 @@ public class Card implements Comparable<Card>{
     }
 
     public String getRank() { return rank; }
+    public String getId() { return id; }
     @Override
     public String toString() { return id + " | " + name + " | " + rank + " | " + lastSale; }
 
@@ -49,7 +50,6 @@ public class Card implements Comparable<Card>{
             && Objects.equals(this.name, card.name)
             && Objects.equals(this.id, card.id);
     }
-
 }
 
 

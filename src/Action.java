@@ -14,7 +14,8 @@ public class Action {
         System.out.println(" 3. list available cards");
         System.out.println(" 4. buy card");
         System.out.println(" 5. sell card");
-        System.out.println(" 6. terminate");
+        System.out.println(" 6. auto-sell");
+        System.out.println(" 7. terminate");
 
         System.out.println("");
         System.out.print("> enter choice: ");
@@ -52,4 +53,8 @@ public class Action {
         String price = scanner.next();
         return "SELL "+ cardID + " "+ price;
     }   
+
+    public String autoSellTask(Card card, String cost) {
+        return "SELL "+ card.getId() +" "+ cost;
+    }
 }
