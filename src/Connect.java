@@ -114,15 +114,33 @@ class Connect {
             }
     }
 
+    // creates the list of cards that will be sold
+    // selects based on specified rank
+    public ArrayList<Card> listCards(String listRank) {
+        ArrayList<Card> toSell = new ArrayList<>();
+        for (Card card : myCards) {
+            String rank = card.getRank();
+            if (rank.equals(listRank))
+                toSell.add(card);
+        }
+        return toSell;
+    }
+
     public void autoSell() {
         // calls the login response so myCards is defined!
         sendRequest("CARDS", reader -> loginResponse(reader));
 
-        ArrayList<Card> toSell = new ArrayList<>();
-        for (Card card : myCards) {
-            String rank = card.getRank();
-            if (rank.equals("COMMON") || rank.equals("UNCOMMON"))
-                toSell.add(card);
+        System.out.println(" 1. Sell all common cards");
+        System.out.println(" 2. Sell all uncommon cards");
+        String choice = scanner.nextLine();
+
+        ArrayList<Card> toSell;
+
+        if (choice.equals("1")) toSell = listCards("COMMON");
+        else if (choice.equals("2")) toSell = listCards("UNCOMMON");
+        else {
+            System.out.println("Invalid input");
+            return;
         }
 
         System.out.print("How much would you like to sell all the cards for: ");
