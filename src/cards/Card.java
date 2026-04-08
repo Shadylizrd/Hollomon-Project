@@ -1,3 +1,4 @@
+package cards;
 import java.util.Objects;
 
 public class Card implements Comparable<Card>{
