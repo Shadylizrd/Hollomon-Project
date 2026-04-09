@@ -1,3 +1,5 @@
+package main;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -11,7 +13,7 @@ import java.net.Socket;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 
-class Connect {
+public class Connect {
     private final String username;
     private final String password;
     private final Scanner scanner = new Scanner(System.in);
@@ -39,6 +41,8 @@ class Connect {
                 if (choice == 6) { autoSell(); continue; }
 
                 String task = action.select(choice);
+
+                // lambda shorthand for implementing anonymous classes
                 sendRequest(task, reader -> {
                     loginResponse(reader);
                     taskResponse(reader, task);
