@@ -46,7 +46,7 @@ public class TestReader {
 		TestReader testing = new TestReader();
 
 		try (
-			BufferedReader reader = new BufferedReader(new FileReader("src\\testing\\cardList.txt"));
+			BufferedReader reader = new BufferedReader(new FileReader("src/testing/cardList.txt"));
 		) {
 
 			// long way of declaring the anonymous method		
