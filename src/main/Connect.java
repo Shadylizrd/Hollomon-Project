@@ -18,7 +18,7 @@ import java.io.BufferedWriter;
  * This class connects to the socket and makes use of all the other classes.
  * The main method of the project is @see {@link main.Connect#run()}. 
  * @param scanner defines a scanner so that the program can take inputs.
- * @param action initialises an Acrion object so that all methods may be acessed.
+ * @param action initialises an Action object so that all methods may be accessed.
  * @param myCards initialises an empty ArrayList to store all Card objects in.
  */
 public class Connect {
@@ -47,7 +47,8 @@ public class Connect {
         this.password = password;
     }
 
-    /** MAIN METHOD
+    /** !! Entry point for menu loop !!
+     * 
      * First checks that your login credentials gave access to the server.
      * Then loops through the menu from @see {@link main.Action#menu()}, and checks input from @see {@link main.Action#select(int)}
      * If 6 is selected temporarily breaks out of the general loop to run @see {@link main.Connect#autoSell()}.

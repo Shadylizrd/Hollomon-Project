@@ -3,7 +3,7 @@ import java.util.Objects;
 
 /**
  * Card class, creates objects for each set of parsed data from the server.
- * Also contains necessary CompareTo() and equals() methods.
+ * Also contains necessary compareTo(), equals() and hashCode() methods.
  */
 public class Card implements Comparable<Card>{
     private final String id;
@@ -27,7 +27,7 @@ public class Card implements Comparable<Card>{
 
     /**
     * Sets compareTo() method with this hierarchy: 
-    * COMMON -> UNCOMMON -> RARE -> UNIQUE
+    * UNIQUE -> RARE -> UNCOMMON -> COMMON
     * @param card the card object to compare with the current object.
     */
     @Override
