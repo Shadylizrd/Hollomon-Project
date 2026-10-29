@@ -51,6 +51,9 @@ public class Card implements Comparable<Card>{
             && Objects.equals(this.name, card.name)
             && Objects.equals(this.id, card.id);
     }
+
+    @Override
+    public int hashCode() { return Objects.hash(rank, name, id); }
 }
 
 
