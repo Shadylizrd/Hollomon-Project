@@ -33,7 +33,7 @@ src/
 └── hollomonCheckConnect.jar  # Connection checker supplied with the module
 ```
 ### How the program worked 💔
-Each request to the server opened a fresh connection. You would need to resent the login details each time, which is why after the first connection the entered details (by the user) are saved and fed back to the server on subsequent connections.
+Each request to the server opened a fresh connection. You would need to resent the login details each time, which is why after the first connection the details (entered by the user) are saved and fed back to the server on subsequent connections.
 
 the initial order of interaction with the CLI would look like this:
 ```
