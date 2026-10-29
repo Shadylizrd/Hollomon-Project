@@ -13,6 +13,14 @@ import java.net.Socket;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 
+/**
+ * The main class of this project.
+ * This class connects to the socket and makes use of all the other classes.
+ * The main method of the project is @see {@link main.Connect#run()}. 
+ * @param scanner defines a scanner so that the program can take inputs.
+ * @param action initialises an Acrion object so that all methods may be acessed.
+ * @param myCards initialises an empty ArrayList to store all Card objects in.
+ */
 public class Connect {
     private final String username;
     private final String password;
@@ -20,6 +28,12 @@ public class Connect {
     private final Action action = new Action();
     private ArrayList<Card> myCards = new ArrayList<>();
 
+    /**
+     * Initialising step, stores:
+     * @param username
+     * @param password
+     * for continued use.
+     */
     public Connect() {
         System.out.print("Username: ");
       		this.username = scanner.nextLine();
@@ -33,10 +47,16 @@ public class Connect {
         this.password = password;
     }
 
+    /** MAIN METHOD
+     * First checks that your login credentials gave access to the server.
+     * Then loops through the menu from @see {@link main.Action#menu()}, and checks input from @see {@link main.Action#select(int)}
+     * If 6 is selected temporarily breaks out of the general loop to run @see {@link main.Connect#autoSell()}.
+     * 'reader' is an instance of ReaderTask and has the execute method defined here so that different tasks may be carried
+     * out ontop of the same framework.
+     */
     public void run() {
         int choice;
         if (checkLogin())
-        // will check your choice each time
             while ((choice = action.menu()) != 7) {
                 if (choice == 6) { autoSell(); continue; }
 
@@ -50,11 +70,16 @@ public class Connect {
             }
     }
 
-    // read this and display info?
     public void loginResponse(BufferedReader reader) throws IOException {
         this.myCards = readCards(reader);
     }
 
+    /**
+     * Conducts the action specified by @param task using a switch statement.
+     * @param reader necessary to read the output from the server, passed downwards to next methods.
+     * @param task selected task from the user.
+     * @throws IOException in case of stream being closed unexpectedly.
+     */
     public void taskResponse(BufferedReader reader, String task) throws IOException {
         switch (task) {
             case "CARDS" -> {
@@ -84,8 +109,6 @@ public class Connect {
                 BufferedReader reader = new BufferedReader(new InputStreamReader(sock.getInputStream()));
                 BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(sock.getOutputStream()));
             ) {
-                // actions of the try block
-                // puts the text in the buffer -> not directly to the server
                 writer.write(username); writer.newLine();
                 writer.write(password); writer.newLine();
                 writer.newLine();
@@ -122,8 +145,10 @@ public class Connect {
             }
     }
 
-    // creates the list of cards that will be sold
-    // selects based on specified rank
+    /**
+    * Creates the list of cards that will be sold.
+    * Selects based on specified rank.
+    */ 
     public ArrayList<Card> listCards(String listRank) {
         ArrayList<Card> toSell = new ArrayList<>();
         for (Card card : myCards) {
@@ -134,8 +159,15 @@ public class Connect {
         return toSell;
     }
 
+    /**
+     * autoSell bulk sells all cards of the selected type, COMMON or UNCOMMON.
+     * It sets the reader.execute() method to only have @see {@link main.Connect#loginResponse(BufferedReader)}
+     * as it only needs to generate the list of cards, which is done at each login, to give value to myCards
+     * 
+     * enacts a for-each loop to go through each Card object in myCards and generate the request command text
+     * using @see {@link main.Action#autoSellTask(Card, String)}
+     */
     public void autoSell() {
-        // calls the login response so myCards is defined!
         sendRequest("CARDS", reader -> loginResponse(reader));
 
         System.out.println(" 1. Sell all common cards");
@@ -192,6 +224,13 @@ public class Connect {
         return cards;
     }
 
+    /**
+     * This is here due to a game feature. Each time you logged into the server there was a chance you 
+     * would be given a new card. This was one of the only ways to get RARE and UNIQUE cards. While this 
+     * does not follow proper coding standards it is here as a relic.
+     * 
+     * It would also keep track of the number of log-ins that had happened.
+     */
     public void HAMMERTIME() {
         int loops = 0;
         while (true)
@@ -199,8 +238,6 @@ public class Connect {
                 Socket sock = new Socket ("netsrv.cim.rhul.ac.uk", 1812);
                 BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(sock.getOutputStream()));
             ) {
-                // actions of the try block
-                // puts the text in the buffer -> not directly to the server
                 System.out.println("HAMMER TIME");
                 writer.write(username); writer.newLine();
                 writer.write(password); writer.newLine();
@@ -226,8 +263,6 @@ public class Connect {
                 
                 
     }
-
-    // this is terrible login details management, however, its a fun project and doesn't count towards anything
     public static void main(String[] args) {
         Connect connection = new Connect();
         
