@@ -35,7 +35,7 @@ public class CardSort {
 
     // so fun writing this!
     /**
-     * Sorts a reduced card list, removing all cards below the "RARE" rarity.
+     * Filters a sorted card list, removing all cards below the "RARE" rarity.
      * @param <T> allows for abstract typing (Card).
      * @param cards the arrayList of cards to be sorted.
      */
