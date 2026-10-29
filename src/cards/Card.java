@@ -1,6 +1,10 @@
 package cards;
 import java.util.Objects;
 
+/**
+ * Card class, creates objects for each set of parsed data from the server.
+ * Also contains necessary CompareTo() and equals() methods.
+ */
 public class Card implements Comparable<Card>{
     private final String id;
     private final String name;
@@ -15,13 +19,18 @@ public class Card implements Comparable<Card>{
     }
 
     public String getRank() { return rank; }
+
     public String getId() { return id; }
+
     @Override
     public String toString() { return id + " | " + name + " | " + rank + " | " + lastSale; }
 
+    /**
+    * Sets compareTo() method with this hierarchy: 
+    * COMMON -> UNCOMMON -> RARE -> UNIQUE
+    * @param card the card object to compare with the current object.
+    */
     @Override
-    // set the custom compare to thingys!
-    // COMMON -> UNCOMMON -> RARE -> UNIQUE
     public int compareTo(Card card) {
         if (this.rank.equals(card.rank)) {
             int nameCompared = this.name.compareTo(card.name);
