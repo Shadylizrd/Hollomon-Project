@@ -2,16 +2,10 @@ package cards;
 
 import java.util.ArrayList;
 
+/**
+ * CardSort class, sorts all card objects via selection sort.
+ */
 public class CardSort {
-
-    // merge by rank
-    // paralell bubble sort name 
-    // selection into rank 
-    // each array of ranks gets assigned to a worker in a threadpull 
-    // then runs like a bubble sort or whatever
-    // if cards are equal then collapse them?
-
-    // constantly list all non unique cards for sale
 
     public static <T> void swap(ArrayList<T> cards, int i, int j) {
         T temp = cards.get(i);
@@ -40,7 +34,11 @@ public class CardSort {
     }
 
     // so fun writing this!
-    // allows the list of cards viewed to be smaller!
+    /**
+     * Sorts a reduced card list, removing all cards below the "RARE" rarity.
+     * @param <T> allows for abstract typing (Card).
+     * @param cards the arrayList of cards to be sorted.
+     */
     public static <T> void selectRank(ArrayList<Card> cards) {
         ArrayList<Card> selectedCards = new ArrayList<>();
         for (Card card : cards) {
@@ -49,8 +47,7 @@ public class CardSort {
                 selectedCards.add(card);
             else break;
         }
-        // new ArrayList methods learnt :)
-        // helps keep the methods static?
+
         cards.clear();
         cards.addAll(selectedCards);
     }
