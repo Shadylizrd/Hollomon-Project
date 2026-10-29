@@ -1,7 +1,7 @@
 # Hollomon Card Trader
 Java client program for trading and collecting **Hollomon** cards over TCP sockets.
 
-> Archived project. The Hollomon server that this client talked to was a short-lived server and is no longer online, so the client can't log in any more. However, the sorting logic and offline tests still compile and run — see Running the offline tests.
+> Archived project. The Hollomon server that this client talked to was a short-lived server and is no longer online, so the client can't log in any more. However, the sorting logic and offline tests still compile and run — see the offline tests.
 
 ### Features
 - **Command-line menu** used to: list your cards, show credits, browse offers, and buy and sell card by ID
