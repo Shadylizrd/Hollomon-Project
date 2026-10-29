@@ -7,6 +7,9 @@ import cards.CardSort;
 
 import java.util.ArrayList;
 
+/**
+ * Contains all menu interactions and methods for each type of action.
+ */
 public class Action {
     private final Scanner scanner = new Scanner(System.in);
 
@@ -28,7 +31,11 @@ public class Action {
         return scanner.nextInt();
     }
 
-    // will run methods for each maybe?
+    /**
+     * Takes input from user after displaying the menu.
+     * @param choice users choice of action
+     * @return gives either the String command or runs a method that then returns a customised command.
+     */
     public String select(int choice) {
         return switch (choice) {
             case 1 -> "CARDS";
@@ -39,6 +46,7 @@ public class Action {
             default ->  "";
         };
     }
+
     public void filterOffers(ArrayList<Card> cards) {
         System.out.println(" 1. Show all cards");
         System.out.println(" 2. Show cards rare and up");
@@ -60,6 +68,13 @@ public class Action {
         return "SELL "+ cardID + " "+ price;
     }   
 
+    /**
+     * Differs slightly from @see {@link main.Action#SELL()} as it sells all of the selected cards in bulk
+     * for the same price. This method is looped in @see {@link main.Connect#autoSell()}
+     * @param card is each card being sold.
+     * @param cost is the given cost by the user.
+     * @return gives the constructed string as an output to then write to the server.
+     */
     public String autoSellTask(Card card, String cost) {
         return "SELL "+ card.getId() +" "+ cost;
     }
